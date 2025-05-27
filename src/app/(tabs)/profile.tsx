@@ -4,15 +4,20 @@ import { useUserStore } from "@/src/store/userStore";
 import { ProfileCard } from "@/src/components/ProfileCard";
 import { Button } from "@/src/components/Button";
 import { useRouter } from "expo-router";
+import { useOverflow } from "@/src/components/BlurBackground";
 
 export default function ProfileScreen() {
   const { myProfile } = useUserStore();
   const { width } = useWindowDimensions();
   const router = useRouter();
   const { toggleHasOnboarded } = useUserStore();
+  const contentContainerStyle = useOverflow();
 
   return (
-    <ScrollView className="flex-1">
+    <ScrollView
+      className="flex-1"
+      contentContainerStyle={contentContainerStyle}
+    >
       <View className="items-center mb-6 pt-6">
         <View className="border-4 border-white">
           <QRCode
