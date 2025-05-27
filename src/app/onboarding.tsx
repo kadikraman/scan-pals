@@ -7,7 +7,8 @@ import { KeyboardAwareScrollView } from "react-native-keyboard-controller";
 import { Redirect, router } from "expo-router";
 import { CompleteProfileDom } from "../components/CompleteProfileDom";
 import { CompleteProfile } from "../components/CompleteProfile";
-import EvilIcons from "@expo/vector-icons/EvilIcons";
+import { SymbolView } from "expo-symbols";
+import { MaterialIcons } from "@expo/vector-icons";
 
 const useDomComponent = false;
 
@@ -31,7 +32,20 @@ export default function OnboardingScreen() {
         keyboardShouldPersistTaps="always"
       >
         <View className="items-center justify-center mb-8">
-          <EvilIcons name="user" size={100} color={accentColor} />
+          <SymbolView
+            name="person.crop.rectangle.stack"
+            type="hierarchical"
+            tintColor={accentColor}
+            animationSpec={{
+              effect: {
+                type: "bounce",
+              },
+            }}
+            style={{ width: 100, height: 100 }}
+            fallback={
+              <MaterialIcons name="person" color={accentColor} size={100} />
+            }
+          />
           <Text bold large2x>
             Complete your profile
           </Text>

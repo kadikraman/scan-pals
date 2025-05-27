@@ -1,6 +1,7 @@
 import { Tabs } from "expo-router";
 import { useTheme } from "@/src/utils/useTheme";
-import EvilIcons from "@expo/vector-icons/EvilIcons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { SymbolView } from "expo-symbols";
 
 export default function TabsLayout() {
   const { accentColor } = useTheme();
@@ -16,7 +17,13 @@ export default function TabsLayout() {
         options={{
           title: "Connections",
           tabBarIcon: ({ color, size }) => (
-            <EvilIcons name="archive" size={size} color={color} />
+            <SymbolView
+              name="person.crop.rectangle.stack"
+              type="hierarchical"
+              tintColor={color}
+              style={{ width: size, height: size }}
+              fallback={<MaterialIcons name="home" color={color} size={size} />}
+            />
           ),
         }}
       />
@@ -25,7 +32,15 @@ export default function TabsLayout() {
         options={{
           title: "My Profile",
           tabBarIcon: ({ color, size }) => (
-            <EvilIcons name="gear" size={size} color={color} />
+            <SymbolView
+              name="person.bust.fill"
+              type="hierarchical"
+              tintColor={color}
+              style={{ width: size, height: size }}
+              fallback={
+                <MaterialIcons name="person" color={color} size={size} />
+              }
+            />
           ),
         }}
       />
