@@ -1,0 +1,21 @@
+diff --git a/build/jetpack-compose/ContextMenu/index.d.ts b/build/jetpack-compose/ContextMenu/index.d.ts
+index 94c095bb11a4b0c815efd2fb364f6c8a1f4a3997..4367a65a14d4753ebe31f8f2631d2f8cb6c32be0 100644
+--- a/build/jetpack-compose/ContextMenu/index.d.ts
++++ b/build/jetpack-compose/ContextMenu/index.d.ts
+@@ -1,4 +1,4 @@
+-import { ReactElement, ReactNode } from 'react';
++import { PropsWithChildren, ReactElement, ReactNode } from 'react';
+ import { NativeSyntheticEvent, StyleProp, ViewStyle } from 'react-native';
+ import { ButtonProps } from '../Button';
+ import { PickerProps } from '../Picker';
+@@ -62,8 +62,8 @@ export type SubmenuProps = {
+      */
+     children: ReactNode;
+ };
+-export declare function Submenu(): import("react").JSX.Element;
+-export declare function Items(): import("react").JSX.Element;
++export declare function Submenu(props: PropsWithChildren): import("react").JSX.Element;
++export declare function Items(props: PropsWithChildren): import("react").JSX.Element;
+ export declare namespace Items {
+     var tag: string;
+ }

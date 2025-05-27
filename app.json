@@ -1,0 +1,87 @@
+{
+  "expo": {
+    "name": "Scan Pals",
+    "slug": "appjs-2025-workshop-app",
+    "scheme": "appjs-2025-workshop-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon-dark.png",
+    "userInterfaceStyle": "automatic",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "userInterfaceStyle": "automatic",
+      "bundleIdentifier": "com.expokadi.scanpals",
+      "icon": {
+        "light": "./assets/icon-light.png",
+        "dark": "./assets/icon-dark.png",
+        "tinted": "./assets/icon-tinted.png"
+      },
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#1F2937"
+      },
+      "edgeToEdgeEnabled": true,
+      "userInterfaceStyle": "automatic",
+      "package": "com.expokadi.scanpals",
+      "permissions": [
+        "android.permission.CAMERA"
+      ]
+    },
+    "web": {
+      "favicon": "./assets/favicon.png",
+      "bundler": "metro",
+      "output": "server"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#E6E0FF",
+          "image": "./assets/splash-icon-light.png",
+          "dark": {
+            "image": "./assets/splash-icon-dark.png",
+            "backgroundColor": "#1F2937"
+          },
+          "android": {
+            "imageWidth": 200
+          },
+          "ios": {
+            "imageWidth": 400
+          }
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera to scan QR codes for profiles",
+          "recordAudioAndroid": false
+        }
+      ],
+      [
+        "expo-quick-actions",
+        {
+          "androidIcons": {
+            "qrcode": {
+              "foregroundImage": "./assets/qrcode.png",
+              "backgroundColor": "#1F2937"
+            }
+          }
+        }
+      ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c12a4afe-a116-4fd7-9dcc-133ce949eb0c"
+      }
+    },
+    "owner": "expokadi"
+  }
+}
