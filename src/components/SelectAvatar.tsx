@@ -2,7 +2,7 @@ import { View, Pressable, useWindowDimensions } from "react-native";
 import { Image } from "expo-image";
 import { cn } from "../utils/cn";
 import { useTheme } from "../utils/useTheme";
-
+import * as Haptics from "expo-haptics";
 import { Fragment } from "react";
 import { avatars } from "../constants";
 
@@ -36,6 +36,7 @@ export function SelectAvatar({ color, setColor, avatar, setAvatar }: Props) {
               "opacity-50": color && color !== item,
             })}
             onPress={() => {
+              Haptics.selectionAsync();
               setColor(item);
             }}
           >
@@ -55,6 +56,7 @@ export function SelectAvatar({ color, setColor, avatar, setAvatar }: Props) {
           <Pressable
             key={item.id}
             onPress={() => {
+              Haptics.selectionAsync();
               setAvatar(item.id);
             }}
             className={cn(

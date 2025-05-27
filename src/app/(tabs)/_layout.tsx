@@ -2,6 +2,7 @@ import { Tabs } from "expo-router";
 import { useTheme } from "@/src/utils/useTheme";
 import { MaterialIcons } from "@expo/vector-icons";
 import { SymbolView } from "expo-symbols";
+import { TabBarButton } from "@/src/components/TabBarButton";
 
 export default function TabsLayout() {
   const { accentColor } = useTheme();
@@ -25,6 +26,9 @@ export default function TabsLayout() {
               fallback={<MaterialIcons name="home" color={color} size={size} />}
             />
           ),
+          tabBarButton: ({ onPress, children }) => (
+            <TabBarButton onPress={onPress}>{children}</TabBarButton>
+          ),
         }}
       />
       <Tabs.Screen
@@ -41,6 +45,9 @@ export default function TabsLayout() {
                 <MaterialIcons name="person" color={color} size={size} />
               }
             />
+          ),
+          tabBarButton: ({ onPress, children }) => (
+            <TabBarButton onPress={onPress}>{children}</TabBarButton>
           ),
         }}
       />
