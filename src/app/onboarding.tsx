@@ -10,7 +10,7 @@ import { CompleteProfile } from "../components/CompleteProfile";
 import { SymbolView } from "expo-symbols";
 import { MaterialIcons } from "@expo/vector-icons";
 
-const useDomComponent = false;
+const useDomComponent = true;
 
 export default function OnboardingScreen() {
   const { accentColor } = useTheme();
