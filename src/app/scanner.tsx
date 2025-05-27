@@ -12,6 +12,7 @@ import { ProfileCard } from "@/src/components/ProfileCard";
 import { cn } from "../utils/cn";
 import { Text } from "@/src/components/Text";
 import { useProfileStore } from "../store/profileStore";
+import * as Haptics from "expo-haptics";
 
 export const unstable_settings = {
   initialRouteName: "(tabs)",
@@ -36,6 +37,7 @@ export default function ScannerScreen() {
     }
     canScanRef.current = false;
     try {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       const scannerResult = JSON.parse(barcode.data);
       const requiredFields = ["userId", "name", "bio", "updatedAt"];
       const missingFields = requiredFields.filter(
@@ -68,6 +70,7 @@ export default function ScannerScreen() {
 
   const handleSaveProfile = async () => {
     if (scannedProfile) {
+      Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       if (isNew) {
         addProfile(scannedProfile);
       } else {
