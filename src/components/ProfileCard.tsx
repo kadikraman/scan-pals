@@ -1,4 +1,4 @@
-import { View } from "react-native";
+import { Alert, View } from "react-native";
 import { Profile } from "@/src/types";
 import { cn } from "@/src/utils/cn";
 import { Text } from "@/src/components/Text";
@@ -6,7 +6,8 @@ import { Image } from "expo-image";
 import { avatars, fallbackAvatar } from "../constants";
 import { useTheme } from "../utils/useTheme";
 import { Deletable } from "./Deletable";
-import { useProfileStore } from "../store/profileStore";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteProfile } from "../utils/api";
 
 export function ProfileCard({
   profile,
@@ -23,10 +24,22 @@ export function ProfileCard({
 
   const tintColor = profile.color || accentColor;
 
-  const { deleteProfile } = useProfileStore();
+  const queryClient = useQueryClient();
+  const deleteProfileMutation = useMutation<void, Error, Omit<Profile, "id">>({
+    mutationFn: deleteProfile,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profiles"] });
+    },
+    onError: (error) => {
+      Alert.alert("Error deleting profile", error.message);
+    },
+  });
 
   return (
-    <Deletable canDelete={canDelete} onDelete={() => deleteProfile(profile)}>
+    <Deletable
+      canDelete={canDelete}
+      onDelete={() => deleteProfileMutation.mutate(profile)}
+    >
       <View
         className={cn(
           "bg-light-surface dark:bg-dark-surface web:rounded-lg r",
