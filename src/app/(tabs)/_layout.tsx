@@ -4,6 +4,24 @@ import { MaterialIcons } from "@expo/vector-icons";
 import { SymbolView } from "expo-symbols";
 import { TabBarButton } from "@/src/components/TabBarButton";
 import { MenuButton } from "@/src/components/MenuButton";
+import { BlurBackground } from "@/src/components/BlurBackground";
+import { Platform } from "react-native";
+import { ComponentProps } from "react";
+
+const blurViewProps: ComponentProps<typeof Tabs.Screen>["options"] = {
+  headerTransparent: Platform.select({
+    ios: true,
+    default: false,
+  }),
+  tabBarStyle: Platform.select({
+    ios: {
+      position: "absolute",
+    },
+    default: {},
+  }),
+  headerBackground: BlurBackground,
+  tabBarBackground: BlurBackground,
+};
 
 export default function TabsLayout() {
   const { accentColor } = useTheme();
@@ -17,6 +35,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="index"
         options={{
+          ...blurViewProps,
           title: "Connections",
           tabBarIcon: ({ color, size }) => (
             <SymbolView
@@ -35,6 +54,7 @@ export default function TabsLayout() {
       <Tabs.Screen
         name="profile"
         options={{
+          ...blurViewProps,
           title: "My Profile",
           tabBarIcon: ({ color, size }) => (
             <SymbolView

@@ -5,11 +5,13 @@ import { ProfileCard } from "@/src/components/ProfileCard";
 import { FlatList, RefreshControl } from "react-native-gesture-handler";
 import { Text } from "@/src/components/Text";
 import { useProfileStore } from "@/src/store/profileStore";
+import { useOverflow } from "@/src/components/BlurBackground";
 
 const isLoading = false;
 
 export default function IndexScreen() {
   const { profiles } = useProfileStore();
+  const contentContainerStyle = useOverflow();
 
   if (Platform.OS === "web") {
     if (isLoading) {
@@ -44,6 +46,7 @@ export default function IndexScreen() {
 
   return (
     <FlatList
+      contentContainerStyle={contentContainerStyle}
       keyExtractor={(item) => item.userId}
       refreshControl={
         <RefreshControl refreshing={isLoading} onRefresh={() => {}} />
