@@ -4,44 +4,72 @@ import { useUserStore } from "../store/userStore";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { Platform } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import {
+  DarkTheme,
+  DefaultTheme,
+  ThemeProvider,
+} from "@react-navigation/native";
 import "../../global.css";
+import { useTheme } from "../utils/useTheme";
+
+const MyDarkTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    background: "#111827",
+    text: "#F9FAFB",
+    border: "#374151",
+    card: "#1F2937",
+  },
+};
+
+const MyDefaultTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    background: "#F9FAFB",
+  },
+};
 
 export default function RootLayout() {
   const { hasFinishedOnboarding } = useUserStore();
+  const { darkMode } = useTheme();
 
   return (
-    <GestureHandlerRootView>
-      <KeyboardProvider>
-        <StatusBar style="auto" />
-        <Stack>
-          <Stack.Protected
-            guard={Boolean(!hasFinishedOnboarding && Platform.OS !== "web")}
-          >
-            <Stack.Screen
-              name="onboarding"
-              options={{ animation: "none", headerShown: false }}
-            />
-          </Stack.Protected>
-          <Stack.Protected
-            guard={Boolean(hasFinishedOnboarding || Platform.OS === "web")}
-          >
-            <Stack.Screen
-              name="(tabs)"
-              options={{
-                animation: "none",
-                headerShown: false,
-              }}
-            />
-            <Stack.Screen
-              name="scanner"
-              options={{
-                title: "Scan profile",
-                presentation: "modal",
-              }}
-            />
-          </Stack.Protected>
-        </Stack>
-      </KeyboardProvider>
-    </GestureHandlerRootView>
+    <ThemeProvider value={darkMode ? MyDarkTheme : MyDefaultTheme}>
+      <GestureHandlerRootView>
+        <KeyboardProvider>
+          <StatusBar style="auto" />
+          <Stack>
+            <Stack.Protected
+              guard={Boolean(!hasFinishedOnboarding && Platform.OS !== "web")}
+            >
+              <Stack.Screen
+                name="onboarding"
+                options={{ animation: "none", headerShown: false }}
+              />
+            </Stack.Protected>
+            <Stack.Protected
+              guard={Boolean(hasFinishedOnboarding || Platform.OS === "web")}
+            >
+              <Stack.Screen
+                name="(tabs)"
+                options={{
+                  animation: "none",
+                  headerShown: false,
+                }}
+              />
+              <Stack.Screen
+                name="scanner"
+                options={{
+                  title: "Scan profile",
+                  presentation: "modal",
+                }}
+              />
+            </Stack.Protected>
+          </Stack>
+        </KeyboardProvider>
+      </GestureHandlerRootView>
+    </ThemeProvider>
   );
 }
