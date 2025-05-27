@@ -3,6 +3,7 @@ import { useTheme } from "@/src/utils/useTheme";
 import { MaterialIcons } from "@expo/vector-icons";
 import { SymbolView } from "expo-symbols";
 import { TabBarButton } from "@/src/components/TabBarButton";
+import { MenuButton } from "@/src/components/MenuButton";
 
 export default function TabsLayout() {
   const { accentColor } = useTheme();
@@ -49,6 +50,7 @@ export default function TabsLayout() {
           tabBarButton: ({ onPress, children }) => (
             <TabBarButton onPress={onPress}>{children}</TabBarButton>
           ),
+          headerRight: () => <MenuButton />,
         }}
       />
     </Tabs>
