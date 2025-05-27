@@ -4,14 +4,21 @@ import { Button } from "@/src/components/Button";
 import { ProfileCard } from "@/src/components/ProfileCard";
 import { FlatList, RefreshControl } from "react-native-gesture-handler";
 import { Text } from "@/src/components/Text";
-import { useProfileStore } from "@/src/store/profileStore";
 import { useOverflow } from "@/src/components/BlurBackground";
-
-const isLoading = false;
+import { useQuery } from "@tanstack/react-query";
+import { Profile } from "@/src/types";
+import { getProfiles } from "@/src/utils/api";
 
 export default function IndexScreen() {
-  const { profiles } = useProfileStore();
   const contentContainerStyle = useOverflow();
+
+  const query = useQuery<{ profiles: Profile[] }>({
+    queryKey: ["profiles"],
+    queryFn: getProfiles,
+  });
+
+  const profiles = query.data?.profiles ?? [];
+  const isLoading = query.isLoading;
 
   if (Platform.OS === "web") {
     if (isLoading) {
@@ -49,7 +56,7 @@ export default function IndexScreen() {
       contentContainerStyle={contentContainerStyle}
       keyExtractor={(item) => item.userId}
       refreshControl={
-        <RefreshControl refreshing={isLoading} onRefresh={() => {}} />
+        <RefreshControl refreshing={isLoading} onRefresh={query.refetch} />
       }
       data={profiles?.sort((a, b) => b.updatedAt - a.updatedAt) || []}
       renderItem={({ item }) => <ProfileCard profile={item} canDelete />}

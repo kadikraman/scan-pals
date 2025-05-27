@@ -13,6 +13,9 @@ import "../../global.css";
 import { useTheme } from "../utils/useTheme";
 import { useEffect } from "react";
 import * as QuickActions from "expo-quick-actions";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 const MyDarkTheme = {
   ...DarkTheme,
@@ -50,40 +53,42 @@ export default function RootLayout() {
   }, []);
 
   return (
-    <ThemeProvider value={darkMode ? MyDarkTheme : MyDefaultTheme}>
-      <GestureHandlerRootView>
-        <KeyboardProvider>
-          <StatusBar style="auto" />
-          <Stack>
-            <Stack.Protected
-              guard={Boolean(!hasFinishedOnboarding && Platform.OS !== "web")}
-            >
-              <Stack.Screen
-                name="onboarding"
-                options={{ animation: "none", headerShown: false }}
-              />
-            </Stack.Protected>
-            <Stack.Protected
-              guard={Boolean(hasFinishedOnboarding || Platform.OS === "web")}
-            >
-              <Stack.Screen
-                name="(tabs)"
-                options={{
-                  animation: "none",
-                  headerShown: false,
-                }}
-              />
-              <Stack.Screen
-                name="scanner"
-                options={{
-                  title: "Scan profile",
-                  presentation: "modal",
-                }}
-              />
-            </Stack.Protected>
-          </Stack>
-        </KeyboardProvider>
-      </GestureHandlerRootView>
-    </ThemeProvider>
+    <QueryClientProvider client={queryClient}>
+      <ThemeProvider value={darkMode ? MyDarkTheme : MyDefaultTheme}>
+        <GestureHandlerRootView>
+          <KeyboardProvider>
+            <StatusBar style="auto" />
+            <Stack>
+              <Stack.Protected
+                guard={Boolean(!hasFinishedOnboarding && Platform.OS !== "web")}
+              >
+                <Stack.Screen
+                  name="onboarding"
+                  options={{ animation: "none", headerShown: false }}
+                />
+              </Stack.Protected>
+              <Stack.Protected
+                guard={Boolean(hasFinishedOnboarding || Platform.OS === "web")}
+              >
+                <Stack.Screen
+                  name="(tabs)"
+                  options={{
+                    animation: "none",
+                    headerShown: false,
+                  }}
+                />
+                <Stack.Screen
+                  name="scanner"
+                  options={{
+                    title: "Scan profile",
+                    presentation: "modal",
+                  }}
+                />
+              </Stack.Protected>
+            </Stack>
+          </KeyboardProvider>
+        </GestureHandlerRootView>
+      </ThemeProvider>
+    </QueryClientProvider>
   );
 }

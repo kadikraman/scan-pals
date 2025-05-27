@@ -11,21 +11,50 @@ import { useRouter } from "expo-router";
 import { ProfileCard } from "@/src/components/ProfileCard";
 import { cn } from "../utils/cn";
 import { Text } from "@/src/components/Text";
-import { useProfileStore } from "../store/profileStore";
 import * as Haptics from "expo-haptics";
+import { addProfile, updateProfile, getProfiles } from "../utils/api";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const unstable_settings = {
   initialRouteName: "(tabs)",
 };
-
-const isLoading = false;
 
 export default function ScannerScreen() {
   const router = useRouter();
   const [permission, requestPermission] = useCameraPermissions();
   const [scannedProfile, setScannedProfile] = useState<Profile | null>(null);
   const canScanRef = useRef(true);
-  const { addProfile, updateProfile, profiles } = useProfileStore();
+  const queryClient = useQueryClient();
+
+  const query = useQuery<{ profiles: Profile[] }>({
+    queryKey: ["profiles"],
+    queryFn: getProfiles,
+  });
+
+  const addProfileMutation = useMutation<void, Error, Profile>({
+    mutationFn: addProfile,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profiles"] });
+    },
+    onError: (error) => {
+      Alert.alert("Error adding profile", error.message);
+    },
+  });
+
+  const updateProfileMutation = useMutation<void, Error, Profile>({
+    mutationFn: updateProfile,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["profiles"] });
+    },
+    onError: (error) => {
+      Alert.alert("Error updating profile", error.message);
+    },
+  });
+
+  const isLoading =
+    addProfileMutation.isPending || updateProfileMutation.isPending;
+
+  const profiles = query.data?.profiles ?? [];
 
   const isNew = !profiles.find(
     (profile) => profile.userId === scannedProfile?.userId,
@@ -72,9 +101,9 @@ export default function ScannerScreen() {
     if (scannedProfile) {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       if (isNew) {
-        addProfile(scannedProfile);
+        addProfileMutation.mutate(scannedProfile);
       } else {
-        updateProfile(scannedProfile);
+        updateProfileMutation.mutate(scannedProfile);
       }
     }
     router.replace("/");
