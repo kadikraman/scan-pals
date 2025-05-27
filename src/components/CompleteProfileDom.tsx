@@ -1,6 +1,9 @@
 import { Profile } from "../types";
 import { Fragment, useState } from "react";
 import { SelectAvatar } from "./SelectAvatar";
+import ProfileForm from "./ProfileForm";
+import { DomContainer } from "./DomContainer";
+import { View } from "react-native";
 
 type Props = {
   myProfile: Omit<Profile, "id"> | null;
@@ -33,7 +36,18 @@ export function CompleteProfileDom({
         setAvatar={setAvatar}
         setColor={setColor}
       />
-      {/* TODO: Add DOM component */}
+      <DomContainer
+        vertical
+        render={({ containerStyle, ...props }) => (
+          <View style={containerStyle}>
+            <ProfileForm
+              {...props}
+              defaultProfile={myProfile}
+              onProfileCreate={onProfileCreate}
+            />
+          </View>
+        )}
+      />
     </Fragment>
   );
 }
