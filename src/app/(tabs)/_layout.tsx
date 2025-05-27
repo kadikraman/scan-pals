@@ -7,6 +7,7 @@ import { MenuButton } from "@/src/components/MenuButton";
 import { BlurBackground } from "@/src/components/BlurBackground";
 import { Platform } from "react-native";
 import { ComponentProps } from "react";
+import { useQuickActionRouting } from "expo-quick-actions/router";
 
 const blurViewProps: ComponentProps<typeof Tabs.Screen>["options"] = {
   headerTransparent: Platform.select({
@@ -25,6 +26,8 @@ const blurViewProps: ComponentProps<typeof Tabs.Screen>["options"] = {
 
 export default function TabsLayout() {
   const { accentColor } = useTheme();
+
+  useQuickActionRouting();
 
   return (
     <Tabs

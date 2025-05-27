@@ -11,6 +11,8 @@ import {
 } from "@react-navigation/native";
 import "../../global.css";
 import { useTheme } from "../utils/useTheme";
+import { useEffect } from "react";
+import * as QuickActions from "expo-quick-actions";
 
 const MyDarkTheme = {
   ...DarkTheme,
@@ -34,6 +36,18 @@ const MyDefaultTheme = {
 export default function RootLayout() {
   const { hasFinishedOnboarding } = useUserStore();
   const { darkMode } = useTheme();
+
+  useEffect(() => {
+    QuickActions.setItems([
+      {
+        title: "Add profile",
+        subtitle: "Open the scanner",
+        icon: Platform.OS === "ios" ? "symbol:qrcode.viewfinder" : "qrcode",
+        id: "0",
+        params: { href: "/scanner" },
+      },
+    ]);
+  }, []);
 
   return (
     <ThemeProvider value={darkMode ? MyDarkTheme : MyDefaultTheme}>
